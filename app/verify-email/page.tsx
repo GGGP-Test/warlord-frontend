@@ -1,14 +1,12 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { verifyEmailToken } from '@/lib/api';
 
-// Force dynamic rendering for this page (uses searchParams)
-export const dynamic = 'force-dynamic';
-
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const email = searchParams.get('email');
@@ -88,5 +86,20 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen flex items-center justify-center px-4">
+        <div className="text-center space-y-4">
+          <div className="animate-spin h-12 w-12 border-4 border-warlord-accent border-t-transparent rounded-full mx-auto" />
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </main>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }
