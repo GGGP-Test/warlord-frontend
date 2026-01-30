@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { verifyEmailToken } from '@/lib/api';
 
+// Force dynamic rendering for this page (uses searchParams)
+export const dynamic = 'force-dynamic';
+
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
