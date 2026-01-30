@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      // Users can read their own data
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Only backend functions can write
+      allow write: if false;
+    }
+
+    // Verification queue (backend only)
+    match /verification_queue/{queueId} {
+      allow read, write: if false;
+    }
+
+    // Cost tracking (backend only)
+    match /cost_tracking/{operation}/logs/{logId} {
+      allow read, write: if false;
+    }
+  }
+}
