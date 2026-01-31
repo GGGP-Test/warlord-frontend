@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in - Galactly</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #FAFAFA;
+      --bg-secondary: #FFFFFF;
+      --bg-elevated: #FFFFFF;
+      --surface: rgba(255, 255, 255, 0.9);
+      --surface-hover: rgba(255, 255, 255, 0.98);
+      --border: rgba(148, 163, 184, 0.5);
+      --border-focus: rgba(59, 130, 246, 0.5);
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --accent-primary: #3B82F6;
+      --accent-hover: #2563EB;
+      --error: #EF4444;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --duration-fast: 150ms;
+      --duration-normal: 250ms;
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: radial-gradient(circle at top, #E0F2FE 0, #FAFAFA 55%, #F1F5F9 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-md);
+      line-height: 1.6;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+    }
+
+    .logo-text {
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text-primary);
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xl);
+      border: 1px solid var(--border);
+      box-shadow:
+        0 20px 40px rgba(15, 23, 42, 0.18),
+        0 0 0 1px rgba(148, 163, 184, 0.2);
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .form-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .form-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+    }
+
+    .back-link {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(248, 250, 252, 0.95);
+      transition: all var(--duration-fast) var(--ease-smooth);
+    }
+
+    .back-link:hover {
+      border-color: rgba(148, 163, 184, 0.8);
+      background: white;
+      transform: translateY(-1px);
+    }
+
+    .oauth-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(248, 250, 252, 0.95);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: all var(--duration-fast) var(--ease-smooth);
+    }
+
+    .oauth-button:hover {
+      background: white;
+      box-shadow: 0 6px 18px rgba(148, 163, 184, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .oauth-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: conic-gradient(from 180deg at 50% 50%, #4285F4 0deg, #34A853 90deg, #FBBC05 180deg, #EA4335 270deg, #4285F4 360deg);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: var(--spacing-lg) 0;
+      gap: var(--spacing-md);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(148, 163, 184, 0.7), transparent);
+    }
+
+    .field-group {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .field-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0 var(--spacing-md);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+      transition: all var(--duration-fast) var(--ease-smooth);
+    }
+
+    .input-wrapper:focus-within {
+      background: var(--bg-elevated);
+      border-color: var(--accent-primary);
+      box-shadow:
+        0 0 0 1px rgba(59, 130, 246, 0.18),
+        0 0 0 6px rgba(59, 130, 246, 0.1),
+        0 6px 18px rgba(15, 23, 42, 0.18);
+    }
+
+    .input-icon {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-right: 0.5rem;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.7rem 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      font-family: inherit;
+    }
+
+    .input-field::placeholder {
+      color: var(--text-muted);
+    }
+
+    .small-link {
+      font-size: 0.8rem;
+      color: var(--accent-primary);
+      text-decoration: none;
+    }
+
+    .small-link:hover {
+      text-decoration: underline;
+    }
+
+    .error-text {
+      font-size: 0.78rem;
+      color: var(--error);
+      margin-top: 4px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      border: none;
+      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      box-shadow:
+        0 14px 36px rgba(37, 99, 235, 0.65),
+        0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all var(--duration-fast) var(--ease-smooth);
+      margin-top: var(--spacing-sm);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 45px rgba(37, 99, 235, 0.75),
+        0 2px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.75;
+      cursor: default;
+      transform: none;
+    }
+
+    .loading {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(248, 250, 252, 0.6);
+      border-top-color: white;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .alert {
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.8rem;
+      margin-bottom: var(--spacing-md);
+      display: none;
+    }
+
+    .alert-error {
+      background: rgba(248, 113, 113, 0.09);
+      border: 1px solid rgba(248, 113, 113, 0.8);
+      color: #B91C1C;
+    }
+
+    .footer-text {
+      margin-top: var(--spacing-md);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .footer-text a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="logo-row">
+      <div class="logo-mark">G</div>
+      <div class="logo-text">Galactly</div>
+    </div>
+
+    <div class="card">
+      <div class="form-header">
+        <div>
+          <div class="form-title">Welcome back</div>
+          <div class="form-subtitle">Sign in to your account.</div>
+        </div>
+        <a href="/docs/auth/" class="back-link" id="backLink">
+          <span>←</span>
+          <span>Back</span>
+        </a>
+      </div>
+
+      <div id="alert" class="alert alert-error"></div>
+
+      <button type="button" class="oauth-button" id="googleBtn">
+        <span class="oauth-icon" aria-hidden="true"></span>
+        <span>Continue with Google</span>
+      </button>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span>or</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field-group">
+          <label class="field-label" for="email">Work email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="input-field"
+              placeholder="you@company.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div id="emailError" class="error-text" style="display:none"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="password">
+            <span>Password</span>
+            <a href="#" id="forgotPasswordLink" class="small-link">Forgot password?</a>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="input-field"
+              placeholder="••••••••••"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <div id="passwordError" class="error-text" style="display:none"></div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span id="submitBtnText">Sign in</span>
+        </button>
+      </form>
+
+      <p class="footer-text">
+        Don't have an account?
+        <a href="/docs/auth/signup/">Sign up</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function showAlert(message) {
+      const alertEl = document.getElementById('alert');
+      alertEl.textContent = message;
+      alertEl.style.display = 'block';
+    }
+
+    function hideAlert() {
+      const alertEl = document.getElementById('alert');
+      alertEl.style.display = 'none';
+    }
+
+    document.getElementById('backLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/docs/auth/';
+    });
+
+    document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = '/auth/forgot-password/';
+    });
+
+    document.getElementById('googleBtn').addEventListener('click', () => {
+      const redirectUri = window.location.origin + '/auth/callback';
+      const oauthUrl = `/api/auth/google/authorize?redirect_uri=${encodeURIComponent(redirectUri)}`;
+      window.location.href = oauthUrl;
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlert();
+
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+
+      emailError.style.display = 'none';
+      passwordError.style.display = 'none';
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      let valid = true;
+
+      if (!email) {
+        emailError.textContent = 'Email is required.';
+        emailError.style.display = 'block';
+        valid = false;
+      }
+
+      if (!password) {
+        passwordError.textContent = 'Password is required.';
+        passwordError.style.display = 'block';
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const submitBtn = document.getElementById('submitBtn');
+      const submitBtnText = document.getElementById('submitBtnText');
+
+      submitBtn.disabled = true;
+      submitBtnText.innerHTML = '<span class="loading"></span><span>Signing in...</span>';
+
+      try {
+        const response = await fetch('/api/auth/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok) {
+          localStorage.setItem('galactly_auth_token', data.authToken);
+
+          if (data.bridgeCompleted) {
+            window.location.href = '/dashboard';
+          } else {
+            if (data.companyData) {
+              localStorage.setItem('galactly_company_data', JSON.stringify(data.companyData));
+            }
+            window.location.href = '/docs/auth/bridge/';
+          }
+        } else if (response.status === 401) {
+          showAlert('Invalid email or password');
+        } else {
+          showAlert('Something went wrong. Please try again.');
+        }
+      } catch (error) {
+        console.error('Signin error:', error);
+        showAlert('Network error. Please check your connection.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtnText.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>

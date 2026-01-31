@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Verified - Galactly</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #FAFAFA;
+      --bg-secondary: #FFFFFF;
+      --bg-elevated: #FFFFFF;
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --accent-primary: #3B82F6;
+      --success: #22C55E;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --radius-lg: 0.75rem;
+      --duration-slow: 350ms;
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: radial-gradient(circle at top, #DCFCE7 0, #F9FAFB 55%, #F1F5F9 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-md);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-secondary);
+      border-radius: 1rem;
+      padding: var(--spacing-xl);
+      text-align: center;
+      box-shadow:
+        0 22px 45px rgba(22, 163, 74, 0.35),
+        0 0 0 1px rgba(34, 197, 94, 0.15);
+      animation: fadeInUp 0.6s var(--ease-smooth);
+    }
+
+    .checkmark-wrapper {
+      width: 72px;
+      height: 72px;
+      border-radius: 999px;
+      margin: 0 auto var(--spacing-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 20%, #bbf7d0, #22c55e);
+      box-shadow: 0 18px 45px rgba(22, 163, 74, 0.6);
+    }
+
+    .checkmark-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .checkmark-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid var(--success);
+      position: relative;
+      transform: scale(0);
+      opacity: 0;
+      animation: checkPop 0.5s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .checkmark-icon::before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 12px;
+      border-right: 3px solid var(--success);
+      border-bottom: 3px solid var(--success);
+      transform: rotate(45deg) translate(-1px, -1px);
+      top: 4px;
+      left: 8px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .lead {
+      font-size: 0.98rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: var(--spacing-md);
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.3rem;
+      margin-top: 0.6rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.7);
+      opacity: 0.4;
+    }
+
+    .dot.active {
+      opacity: 1;
+      background: var(--accent-primary);
+    }
+
+    @keyframes checkPop {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="checkmark-wrapper">
+      <div class="checkmark-circle">
+        <div class="checkmark-icon" id="checkmark"></div>
+      </div>
+    </div>
+    <h1>Company Verified!</h1>
+    <p class="lead">We've confirmed your business. Preparing your profile and matching you to the right onboarding path.</p>
+    <p class="progress-text" id="progressText">Preparing your profile</p>
+    <div class="dots">
+      <div class="dot active" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+      <div class="dot" id="dot3"></div>
+    </div>
+  </div>
+
+  <script>
+    const progressText = document.getElementById('progressText');
+    const dots = [
+      document.getElementById('dot1'),
+      document.getElementById('dot2'),
+      document.getElementById('dot3')
+    ];
+
+    let dotCount = 0;
+    const dotInterval = setInterval(() => {
+      dotCount = (dotCount + 1) % 4;
+      progressText.textContent = 'Preparing your profile' + '.'.repeat(dotCount);
+
+      const activeIndex = dotCount % dots.length;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === activeIndex);
+      });
+    }, 400);
+
+    setTimeout(() => {
+      clearInterval(dotInterval);
+      window.location.href = '/docs/auth/bridge/';
+    }, 2500);
+  </script>
+</body>
+</html>
