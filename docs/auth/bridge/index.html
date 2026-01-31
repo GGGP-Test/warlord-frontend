@@ -1,599 +1,504 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Confirm Your Company - Galactly</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg-primary: #FAFAFA;
-      --bg-secondary: #FFFFFF;
-      --bg-elevated: #FFFFFF;
-      --surface: rgba(255, 255, 255, 0.9);
-      --surface-hover: rgba(255, 255, 255, 0.98);
-      --border: rgba(148, 163, 184, 0.45);
-      --border-focus: rgba(59, 130, 246, 0.5);
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-muted: #94A3B8;
-      --accent-primary: #3B82F6;
-      --accent-hover: #2563EB;
-      --success: #22C55E;
-      --error: #EF4444;
-      --spacing-sm: 0.5rem;
-      --spacing-md: 1rem;
-      --spacing-lg: 1.5rem;
-      --spacing-xl: 2rem;
-      --radius-md: 0.5rem;
-      --radius-lg: 0.75rem;
-      --radius-xl: 1rem;
-      --duration-fast: 150ms;
-      --duration-normal: 250ms;
-      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: radial-gradient(circle at top, #EFF6FF 0, #FAFAFA 55%, #F1F5F9 100%);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--spacing-md);
-      line-height: 1.6;
-    }
-
-    .shell {
-      width: 100%;
-      max-width: 880px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
-      gap: var(--spacing-xl);
-      align-items: center;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .logo-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 0.9rem;
-      font-weight: 700;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
-    }
-
-    .logo-text {
-      font-weight: 600;
-      letter-spacing: -0.04em;
-      color: var(--text-primary);
-    }
-
-    .subtitle {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-bottom: var(--spacing-lg);
-      max-width: 26rem;
-    }
-
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius-xl);
-      padding: var(--spacing-xl);
-      border: 1px solid var(--border);
-      box-shadow:
-        0 20px 40px rgba(15, 23, 42, 0.18),
-        0 0 0 1px rgba(148, 163, 184, 0.2);
-      max-width: 440px;
-      margin-left: auto;
-    }
-
-    .company-header {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .logo-placeholder {
-      width: 64px;
-      height: 64px;
-      border-radius: 1.2rem;
-      background: radial-gradient(circle at 30% 20%, #dbeafe, #1d4ed8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.6rem;
-      font-weight: 600;
-    }
-
-    .company-name {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .company-website a {
-      font-size: 0.95rem;
-      color: var(--accent-primary);
-      text-decoration: none;
-    }
-
-    .company-website a:hover {
-      text-decoration: underline;
-    }
-
-    .question {
-      margin-top: var(--spacing-md);
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-    }
-
-    .products-section {
-      margin-top: var(--spacing-lg);
-    }
-
-    .products-title {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    .products-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-md);
-    }
-
-    .product-card {
-      width: 112px;
-      border-radius: var(--radius-lg);
-      background: var(--bg-secondary);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      padding: 0.6rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-      position: relative;
-      transition: all var(--duration-fast) var(--ease-smooth);
-    }
-
-    .product-card:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-focus);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
-    }
-
-    .product-image {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: rgba(148, 163, 184, 0.16);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .product-name {
-      font-size: 0.8rem;
-      text-align: center;
-      color: var(--text-secondary);
-    }
-
-    .product-remove {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      border: none;
-      background: rgba(15, 23, 42, 0.08);
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .product-remove:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-
-    .removed-section {
-      margin-top: var(--spacing-md);
-      padding-top: 0.65rem;
-      border-top: 1px dashed rgba(148, 163, 184, 0.7);
-      display: none;
-    }
-
-    .removed-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.4rem;
-    }
-
-    .removed-pill {
-      border-radius: 999px;
-      padding: 0.25rem 0.55rem;
-      font-size: 0.75rem;
-      border: 1px dashed rgba(148, 163, 184, 0.9);
-      cursor: pointer;
-      background: rgba(248, 250, 252, 0.95);
-      color: var(--text-secondary);
-    }
-
-    .actions {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
-      margin-top: var(--spacing-xl);
-    }
-
-    .btn-primary {
-      padding: 0.7rem 1rem;
-      border-radius: var(--radius-md);
-      border: none;
-      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-      color: white;
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      box-shadow:
-        0 14px 36px rgba(37, 99, 235, 0.65),
-        0 1px 0 rgba(255, 255, 255, 0.18);
-      transition: all var(--duration-fast) var(--ease-smooth);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow:
-        0 18px 45px rgba(37, 99, 235, 0.75),
-        0 2px 0 rgba(255, 255, 255, 0.25);
-    }
-
-    .btn-secondary {
-      padding: 0.65rem 1rem;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(148, 163, 184, 0.8);
-      background: rgba(248, 250, 252, 0.98);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      justify-content: center;
-      transition: all var(--duration-fast) var(--ease-smooth);
-    }
-
-    .btn-secondary:hover {
-      background: white;
-      transform: translateY(-1px);
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.15);
-    }
-
-    .loading {
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid rgba(248, 250, 252, 0.6);
-      border-top-color: white;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .alert {
-      border-radius: var(--radius-md);
-      padding: 0.5rem 0.7rem;
-      font-size: 0.8rem;
-      margin-top: var(--spacing-md);
-      display: none;
-    }
-
-    .alert-error {
-      background: rgba(248, 113, 113, 0.09);
-      border: 1px solid rgba(248, 113, 113, 0.8);
-      color: #B91C1C;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 900px) {
-      .shell {
-        grid-template-columns: minmax(0, 1fr);
-        max-width: 480px;
-      }
-
-      body {
-        padding-top: 2.5rem;
-        padding-bottom: 2.5rem;
-      }
-
-      .card {
-        margin-left: 0;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Company - Galactly</title>
+    <style>
+        :root {
+            --bg-primary: #FAFAFA;
+            --bg-secondary: #FFFFFF;
+            --bg-elevated: #FFFFFF;
+            --surface: rgba(255, 255, 255, 0.8);
+            --border: rgba(0, 0, 0, 0.08);
+            --border-focus: rgba(59, 130, 246, 0.4);
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --accent-primary: #3B82F6;
+            --accent-hover: #2563EB;
+            --accent-subtle: rgba(59, 130, 246, 0.08);
+            --error: #EF4444;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --duration-fast: 150ms;
+            --duration-normal: 250ms;
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.5s var(--ease-smooth);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .company-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto var(--spacing-md);
+            border: 2px solid var(--border);
+        }
+        
+        .company-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .company-website {
+            font-size: 14px;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .company-website:hover {
+            text-decoration: underline;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin: var(--spacing-xl) 0 var(--spacing-lg);
+        }
+        
+        .section-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .product-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            position: relative;
+            transition: all var(--duration-normal);
+        }
+        
+        .product-card:hover {
+            border-color: var(--border-focus);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .product-image {
+            font-size: 32px;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .product-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--error);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all var(--duration-fast);
+        }
+        
+        .product-remove:hover:not(:disabled) {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+        
+        .product-remove:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .removed-products {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--accent-subtle);
+            border-radius: var(--radius-md);
+        }
+        
+        .removed-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .removed-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+        }
+        
+        .chip:hover {
+            background: var(--accent-subtle);
+            border-color: var(--accent-primary);
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all var(--duration-normal);
+        }
+        
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--surface);
+            border-color: var(--border-focus);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+            display: none;
+        }
+        
+        .alert.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--error);
+        }
+        
+        @media (max-width: 640px) {
+            .container { padding: var(--spacing-lg); }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
 </head>
 <body>
-  <div class="shell">
-    <div>
-      <div class="header">
-        <div class="logo-mark">G</div>
+    <div class="container">
         <div class="logo-text">Galactly</div>
-      </div>
-      <h1 style="font-size:1.6rem; font-weight:600; margin-bottom:0.3rem;">Is this your company?</h1>
-      <p class="subtitle">We used your website to find your company profile and products. Confirm so we can tailor your onboarding.</p>
-    </div>
-
-    <div class="card">
-      <div class="company-header">
-        <div class="logo-placeholder" id="companyLogo">🏢</div>
-        <div>
-          <div class="company-name" id="companyName">Your company</div>
-          <div class="company-website" id="companyWebsite"></div>
+        
+        <div class="company-header">
+            <img id="companyLogo" class="company-logo" src="" alt="Company Logo">
+            <div id="companyName" class="company-name"></div>
+            <a id="companyWebsite" class="company-website" href="" target="_blank"></a>
         </div>
-      </div>
-
-      <p class="question">We found these products on your site:</p>
-
-      <div class="products-section">
-        <div class="products-grid" id="productsGrid"></div>
-        <div class="removed-section" id="removedSection">
-          <div class="products-title">Removed products (you can add them back):</div>
-          <div class="removed-list" id="removedList"></div>
+        
+        <h2>Is this your company?</h2>
+        
+        <div id="alertBox" class="alert"></div>
+        
+        <div class="section-title">We found these products on your site:</div>
+        
+        <div id="productsGrid" class="products-grid"></div>
+        
+        <div id="removedSection" class="removed-products" style="display: none;">
+            <div class="removed-title">Add back:</div>
+            <div id="removedChips" class="removed-chips"></div>
         </div>
-      </div>
-
-      <div class="alert alert-error" id="bridgeAlert"></div>
-
-      <div class="actions">
-        <button type="button" class="btn-primary" id="confirmBtn">
-          <span class="btn-text" id="confirmBtnText">Yes, this is my company</span>
-        </button>
-        <button type="button" class="btn-secondary" id="rejectBtn">
-          No, this isn't right
-        </button>
-      </div>
+        
+        <div class="button-group">
+            <button class="btn btn-primary" id="confirmBtn">
+                Yes, This Is My Company
+            </button>
+            <button class="btn btn-secondary" id="rejectBtn">
+                No, This Isn't Right
+            </button>
+        </div>
     </div>
-  </div>
-
-  <script>
-    const MIN_PRODUCTS = 1;
-    const MAX_PRODUCTS = 3;
-
-    const rawData = localStorage.getItem('galactly_company_data');
-    let companyData = null;
-
-    try {
-      companyData = rawData ? JSON.parse(rawData) : null;
-    } catch {
-      companyData = null;
-    }
-
-    if (!companyData) {
-      window.location.href = '/docs/auth/signup/';
-    }
-
-    const companyInfo = {
-      logo: companyData.logo || '',
-      name: companyData.name || 'Your company',
-      website: companyData.website || '',
-      products: Array.isArray(companyData.products) ? companyData.products.slice(0, MAX_PRODUCTS) : []
-    };
-
-    if (companyInfo.products.length === 0) {
-      companyInfo.products = [
-        { id: 'p1', name: 'Packaging products', image: '' }
-      ];
-    }
-
-    const selectedProducts = [...companyInfo.products];
-
-    const companyNameEl = document.getElementById('companyName');
-    const companyWebsiteEl = document.getElementById('companyWebsite');
-    const companyLogoEl = document.getElementById('companyLogo');
-
-    companyNameEl.textContent = companyInfo.name;
-    if (companyInfo.website) {
-      const a = document.createElement('a');
-      a.href = companyInfo.website;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.textContent = companyInfo.website.replace(/^https?:\/\//, '');
-      companyWebsiteEl.appendChild(a);
-    }
-
-    if (companyInfo.logo) {
-      companyLogoEl.style.background = '#FFFFFF';
-      companyLogoEl.innerHTML = `<img src="${companyInfo.logo}" alt="${companyInfo.name} logo" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" />`;
-    } else {
-      const initials = companyInfo.name
-        .split(' ')
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(w => w[0].toUpperCase())
-        .join('');
-      companyLogoEl.textContent = initials || '🏭';
-    }
-
-    function renderProducts() {
-      const grid = document.getElementById('productsGrid');
-      grid.innerHTML = '';
-
-      selectedProducts.forEach((product, index) => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-
-        const imageDiv = document.createElement('div');
-        imageDiv.className = 'product-image';
-        if (product.image) {
-          const img = document.createElement('img');
-          img.src = product.image;
-          img.alt = product.name;
-          img.style.width = '100%';
-          img.style.height = '100%';
-          img.style.objectFit = 'cover';
-          img.style.borderRadius = '999px';
-          imageDiv.appendChild(img);
-        } else {
-          imageDiv.textContent = '📦';
-        }
-
-        const nameDiv = document.createElement('div');
-        nameDiv.className = 'product-name';
-        nameDiv.textContent = product.name;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'product-remove';
-        removeBtn.textContent = '×';
-        removeBtn.dataset.index = String(index);
-        if (selectedProducts.length <= MIN_PRODUCTS) {
-          removeBtn.disabled = true;
-        }
-
-        removeBtn.addEventListener('click', () => {
-          if (selectedProducts.length > MIN_PRODUCTS) {
-            selectedProducts.splice(index, 1);
+    
+    <script>
+        const MIN_PRODUCTS = 1;
+        const MAX_PRODUCTS = 3;
+        let companyData = {};
+        let selectedProducts = [];
+        
+        // Load company data
+        function loadCompanyData() {
+            const dataStr = localStorage.getItem('galactly_company_data');
+            if (!dataStr) {
+                window.location.href = '/auth/signup/';
+                return;
+            }
+            
+            companyData = JSON.parse(dataStr);
+            selectedProducts = [...(companyData.products || [])];
+            
+            // Populate UI
+            document.getElementById('companyLogo').src = companyData.logo || '/assets/default-logo.png';
+            document.getElementById('companyName').textContent = companyData.name;
+            document.getElementById('companyWebsite').textContent = companyData.website;
+            document.getElementById('companyWebsite').href = companyData.website;
+            
             renderProducts();
+        }
+        
+        // Render products
+        function renderProducts() {
+            const container = document.getElementById('productsGrid');
+            container.innerHTML = '';
+            
+            selectedProducts.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <button class="product-remove" data-index="${index}" 
+                            ${selectedProducts.length <= MIN_PRODUCTS ? 'disabled' : ''}>
+                        ×
+                    </button>
+                    <div class="product-image">
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}" style="width:32px;height:32px;">` : '📦'}
+                    </div>
+                    <div class="product-name">${product.name}</div>
+                `;
+                container.appendChild(card);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.product-remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    removeProduct(index);
+                });
+            });
+            
+            // Render removed products
             renderRemovedProducts();
-          }
-        });
-
-        card.appendChild(imageDiv);
-        card.appendChild(nameDiv);
-        card.appendChild(removeBtn);
-        grid.appendChild(card);
-      });
-
-      renderRemovedProducts();
-    }
-
-    function renderRemovedProducts() {
-      const removedSection = document.getElementById('removedSection');
-      const removedList = document.getElementById('removedList');
-      removedList.innerHTML = '';
-
-      const removedProducts = companyInfo.products.filter(
-        p => !selectedProducts.find(sp => sp.id === p.id)
-      );
-
-      if (removedProducts.length === 0 || selectedProducts.length >= MAX_PRODUCTS) {
-        removedSection.style.display = 'none';
-        return;
-      }
-
-      removedSection.style.display = 'block';
-
-      removedProducts.forEach((product) => {
-        const pill = document.createElement('button');
-        pill.type = 'button';
-        pill.className = 'removed-pill';
-        pill.textContent = product.name + ' +';
-        pill.addEventListener('click', () => {
-          if (selectedProducts.length < MAX_PRODUCTS) {
-            selectedProducts.push(product);
-            renderProducts();
-          }
-        });
-        removedList.appendChild(pill);
-      });
-    }
-
-    renderProducts();
-
-    function showBridgeAlert(message) {
-      const alertEl = document.getElementById('bridgeAlert');
-      alertEl.textContent = message;
-      alertEl.style.display = 'block';
-    }
-
-    const confirmBtn = document.getElementById('confirmBtn');
-    const confirmBtnText = document.getElementById('confirmBtnText');
-    confirmBtn.addEventListener('click', async () => {
-      confirmBtn.disabled = true;
-      confirmBtnText.innerHTML = '<span class="loading"></span><span>Confirming...</span>';
-
-      try {
-        const tempToken = localStorage.getItem('galactly_temp_token');
-        const response = await fetch('/api/auth/bridge/confirm', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': tempToken ? `Bearer ${tempToken}` : ''
-          },
-          body: JSON.stringify({
-            confirmed: true,
-            selectedProducts
-          })
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.ok) {
-          localStorage.setItem('galactly_auth_token', data.authToken);
-          localStorage.removeItem('galactly_temp_token');
-          localStorage.removeItem('galactly_company_data');
-          localStorage.setItem('galactly_bridge_completed', 'true');
-          window.location.href = '/docs/';
-        } else {
-          showBridgeAlert('Something went wrong. Please try again.');
         }
-      } catch (error) {
-        console.error('Confirmation error:', error);
-        showBridgeAlert('Network error. Please try again.');
-      } finally {
-        confirmBtn.disabled = false;
-        confirmBtnText.textContent = 'Yes, this is my company';
-      }
-    });
-
-    document.getElementById('rejectBtn').addEventListener('click', () => {
-      window.open('https://calendly.com/founder', '_blank');
-    });
-  </script>
+        
+        // Remove product
+        function removeProduct(index) {
+            if (selectedProducts.length > MIN_PRODUCTS) {
+                selectedProducts.splice(index, 1);
+                renderProducts();
+            }
+        }
+        
+        // Render removed products
+        function renderRemovedProducts() {
+            const removedProducts = companyData.products.filter(
+                p => !selectedProducts.find(sp => sp.id === p.id)
+            );
+            
+            const section = document.getElementById('removedSection');
+            const container = document.getElementById('removedChips');
+            
+            if (removedProducts.length > 0 && selectedProducts.length < MAX_PRODUCTS) {
+                section.style.display = 'block';
+                container.innerHTML = '';
+                
+                removedProducts.forEach(product => {
+                    const chip = document.createElement('div');
+                    chip.className = 'chip';
+                    chip.innerHTML = `<span>+</span> ${product.name}`;
+                    chip.onclick = () => addProductBack(product);
+                    container.appendChild(chip);
+                });
+            } else {
+                section.style.display = 'none';
+            }
+        }
+        
+        // Add product back
+        function addProductBack(product) {
+            if (selectedProducts.length < MAX_PRODUCTS) {
+                selectedProducts.push(product);
+                renderProducts();
+            }
+        }
+        
+        // Show alert
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert ${type}`;
+            alertBox.style.display = 'block';
+        }
+        
+        // Confirm button
+        document.getElementById('confirmBtn').addEventListener('click', async () => {
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = true;
+            confirmBtn.innerHTML = '<span class="loading"></span> Confirming...';
+            
+            try {
+                const response = await fetch('/api/auth/bridge/confirm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('galactly_temp_token')}`
+                    },
+                    body: JSON.stringify({
+                        confirmed: true,
+                        selectedProducts: selectedProducts
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Exchange temp token for permanent token
+                    localStorage.setItem('galactly_auth_token', data.authToken);
+                    localStorage.removeItem('galactly_temp_token');
+                    localStorage.removeItem('galactly_company_data');
+                    localStorage.setItem('galactly_bridge_completed', 'true');
+                    
+                    // Redirect to onboarding
+                    window.location.href = '/docs/';
+                } else {
+                    showAlert('Something went wrong. Please try again.', 'error');
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = 'Yes, This Is My Company';
+                }
+            } catch (error) {
+                console.error('Confirmation error:', error);
+                showAlert('Network error. Please try again.', 'error');
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = 'Yes, This Is My Company';
+            }
+        });
+        
+        // Reject button
+        document.getElementById('rejectBtn').addEventListener('click', () => {
+            if (confirm('Would you like to try again with different information or speak with our founder?')) {
+                const choice = prompt('Enter "retry" to try again or "founder" to schedule a call:');
+                if (choice === 'retry') {
+                    window.location.href = '/auth/signup/';
+                } else if (choice === 'founder') {
+                    window.open('https://calendly.com/founder', '_blank');
+                }
+            }
+        });
+        
+        // Initialize
+        loadCompanyData();
+    </script>
 </body>
 </html>
